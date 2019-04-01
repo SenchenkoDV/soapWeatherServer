@@ -1,0 +1,9 @@
+<soapenv:Envelope xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/"
+                  xmlns:gs="http://weather.com/senchenko">
+    <soapenv:Header/>
+    <soapenv:Body>
+        <gs:getCityRequest>
+            <gs:name>Vitebsk</gs:name>
+        </gs:getCityRequest>
+    </soapenv:Body>
+</soapenv:Envelope>

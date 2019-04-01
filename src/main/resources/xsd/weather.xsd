@@ -1,0 +1,27 @@
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:tns="http://weather.com/senchenko"
+           targetNamespace="http://weather.com/senchenko" elementFormDefault="qualified">
+
+    <xs:element name="getCityRequest">
+        <xs:complexType>
+            <xs:sequence>
+                <xs:element name="name" type="xs:string"/>
+            </xs:sequence>
+        </xs:complexType>
+    </xs:element>
+
+    <xs:element name="getCityResponse">
+        <xs:complexType>
+            <xs:sequence>
+                <xs:element name="city" type="tns:city"/>
+            </xs:sequence>
+        </xs:complexType>
+    </xs:element>
+
+    <xs:complexType name="city">
+        <xs:sequence>
+            <xs:element name="name" type="xs:string"/>
+            <xs:element name="temperature" type="xs:int"/>
+        </xs:sequence>
+    </xs:complexType>
+
+</xs:schema>
