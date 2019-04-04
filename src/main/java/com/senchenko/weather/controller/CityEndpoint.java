@@ -25,10 +25,9 @@ public class CityEndpoint {
         this.cityRepository = cityRepository;
     }
 
+//    @ServiceActivator(inputChannel = "soapInChannel", outputChannel = "soapOutChannel")
     @PayloadRoot(namespace = NAMESPACE_URI, localPart = "getCityRequest")
     @ResponsePayload
-    @EndpointId("someService")
-    @ServiceActivator(inputChannel = "soapInChannel")
     public GetCityResponse getCityResponse(@RequestPayload GetCityRequest request){
         GetCityResponse response = new GetCityResponse();
         response.setCity(cityRepository.findCity(request.getName()));

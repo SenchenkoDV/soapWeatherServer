@@ -68,4 +68,10 @@ public class GetCityResponse {
         this.city = value;
     }
 
+    @Override
+    public String toString() {
+        return "GetCityResponse{" +
+                "city=" + city +
+                '}';
+    }
 }
