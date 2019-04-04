@@ -4,9 +4,7 @@ import com.senchenko.weather.repository.CityRepository;
 import com.weather.senchenko.GetCityRequest;
 import com.weather.senchenko.GetCityResponse;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.integration.annotation.EndpointId;
 import org.springframework.integration.annotation.IntegrationComponentScan;
-import org.springframework.integration.annotation.ServiceActivator;
 import org.springframework.ws.server.endpoint.annotation.Endpoint;
 import org.springframework.ws.server.endpoint.annotation.PayloadRoot;
 import org.springframework.ws.server.endpoint.annotation.RequestPayload;
@@ -25,7 +23,6 @@ public class CityEndpoint {
         this.cityRepository = cityRepository;
     }
 
-//    @ServiceActivator(inputChannel = "soapInChannel", outputChannel = "soapOutChannel")
     @PayloadRoot(namespace = NAMESPACE_URI, localPart = "getCityRequest")
     @ResponsePayload
     public GetCityResponse getCityResponse(@RequestPayload GetCityRequest request){
