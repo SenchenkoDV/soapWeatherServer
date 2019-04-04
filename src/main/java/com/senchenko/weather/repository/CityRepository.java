@@ -7,6 +7,7 @@ import org.springframework.util.Assert;
 import javax.annotation.PostConstruct;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Random;
 
 @Component
 public class CityRepository {
@@ -16,13 +17,13 @@ public class CityRepository {
     public void initData(){
         City minsk = new City();
         minsk.setName("Minsk");
-        minsk.setTemperature(10);
+        minsk.setTemperature(new Random().nextInt(30));
 
         citys.put(minsk.getName(), minsk);
 
         City vitebsk = new City();
         vitebsk.setName("Vitebsk");
-        vitebsk.setTemperature(5);
+        vitebsk.setTemperature(new Random().nextInt(35));
 
         citys.put(vitebsk.getName(), vitebsk);
     }
