@@ -31,15 +31,15 @@ public class WebServiceConfig extends WsConfigurerAdapter {
         MessageDispatcherServlet servlet = new MessageDispatcherServlet();
         servlet.setApplicationContext(applicationContext);
         servlet.setTransformWsdlLocations(true);
-        return new ServletRegistrationBean(servlet, "/ws/*");
+        return new ServletRegistrationBean(servlet, "/temperature/*");
     }
 
     @Bean(name = "city")
     public DefaultWsdl11Definition defaultWsdl11Definition(XsdSchema citySchema) {
         DefaultWsdl11Definition wsdl11Definition = new DefaultWsdl11Definition();
         wsdl11Definition.setPortTypeName("CityPort");
-        wsdl11Definition.setLocationUri("/ws");
-        wsdl11Definition.setTargetNamespace("http://weather.com/senchenko");
+        wsdl11Definition.setLocationUri("/temperature");
+        wsdl11Definition.setTargetNamespace("http://weather.com/temperature");
         wsdl11Definition.setSchema(citySchema);
         return wsdl11Definition;
     }
@@ -57,13 +57,13 @@ public class WebServiceConfig extends WsConfigurerAdapter {
     @Bean
     public IntegrationFlow httpWeatherProxy() {
         return IntegrationFlows
-                .from(Http.inboundGateway("/service")
+                .from(Http.inboundGateway("/integration/temperature")
                         .requestPayloadType(Map.class)
                 )
                 .transform(t -> new HashMap((Map) t).get("name"))
                 .transform(t -> String.format(new SoapEnvelopService().createEnvelop(t.toString(), GetCityRequest.class)))
                 .enrichHeaders(h -> h.header("Content-Type", "text/xml; charset=utf-8"))
-                .handle(Http.outboundGateway("http://localhost:8080/ws")
+                .handle(Http.outboundGateway("http://localhost:8080/temperature")
                         .expectedResponseType(String.class))
                 .transform(t -> XML.toJSONObject(t.toString()).getJSONObject("SOAP-ENV:Envelope").getJSONObject("SOAP-ENV:Body").toString())
                 .enrichHeaders(h -> h.header("Content-Type", "application/json; charset=utf-8"))

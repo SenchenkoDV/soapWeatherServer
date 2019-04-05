@@ -1,6 +1,9 @@
 package com.senchenko.weather.service;
 
 import com.weather.senchenko.GetCityRequest;
+import org.apache.logging.log4j.Level;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.w3c.dom.Document;
 
 import javax.xml.bind.JAXBContext;
@@ -15,14 +18,13 @@ import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 
 public class SoapEnvelopService<T> {
+    private static final Logger LOGGER = LogManager.getLogger();
 
     public String createEnvelop(String name, Class<T> clazz) {
-        Document document;
-        Marshaller marshaller;
-        String output = null;
+        String envelop = null;
         try {
-            document = DocumentBuilderFactory.newInstance().newDocumentBuilder().newDocument();
-            marshaller = JAXBContext.newInstance(clazz).createMarshaller();
+            Document document = DocumentBuilderFactory.newInstance().newDocumentBuilder().newDocument();
+            Marshaller marshaller = JAXBContext.newInstance(clazz).createMarshaller();
             GetCityRequest getCityRequest = new GetCityRequest();
             getCityRequest.setName(name);
             marshaller.marshal(getCityRequest, document);
@@ -30,10 +32,10 @@ public class SoapEnvelopService<T> {
             soapMessage.getSOAPBody().addDocument(document);
             ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
             soapMessage.writeTo(outputStream);
-            output = new String(outputStream.toByteArray());
+            envelop = new String(outputStream.toByteArray());
         } catch (JAXBException | SOAPException | IOException | ParserConfigurationException e) {
-            e.printStackTrace();
+            LOGGER.log(Level.ERROR, "Error creating SOAP envelop");
         }
-        return output;
+        return envelop;
     }
 }

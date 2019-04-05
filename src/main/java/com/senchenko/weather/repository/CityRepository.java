@@ -10,7 +10,7 @@ import java.util.Random;
 
 @Component
 public class CityRepository {
-    private static final Map<String, City> citys = new HashMap<>();
+    private static final Map<String, City> cites = new HashMap<>();
 
     @PostConstruct
     public void initData(){
@@ -18,17 +18,17 @@ public class CityRepository {
         minsk.setName("Minsk");
         minsk.setTemperature(new Random().nextInt(30));
 
-        citys.put(minsk.getName(), minsk);
+        cites.put(minsk.getName(), minsk);
 
         City vitebsk = new City();
         vitebsk.setName("Vitebsk");
         vitebsk.setTemperature(new Random().nextInt(35));
 
-        citys.put(vitebsk.getName(), vitebsk);
+        cites.put(vitebsk.getName(), vitebsk);
     }
 
     public City findCity(String name) {
-        Assert.notNull(name, "The country's name must not be null");
-        return citys.get(name);
+        Assert.notNull(name, "The city's name must not be null");
+        return cites.get(name);
     }
 }

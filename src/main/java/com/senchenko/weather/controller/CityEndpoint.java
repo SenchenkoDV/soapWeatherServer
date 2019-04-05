@@ -4,6 +4,7 @@ import com.senchenko.weather.repository.CityRepository;
 import com.weather.senchenko.GetCityRequest;
 import com.weather.senchenko.GetCityResponse;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.ws.server.endpoint.annotation.Endpoint;
 import org.springframework.ws.server.endpoint.annotation.PayloadRoot;
 import org.springframework.ws.server.endpoint.annotation.RequestPayload;
@@ -11,7 +12,9 @@ import org.springframework.ws.server.endpoint.annotation.ResponsePayload;
 
 @Endpoint
 public class CityEndpoint {
-    private static final String NAMESPACE_URI = "http://weather.com/senchenko";
+
+    @Value("@{namespace.uri}")
+    private final String NAMESPACE_URI = "http://weather.com/senchenko";
 
     private CityRepository cityRepository;
 
