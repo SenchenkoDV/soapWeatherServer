@@ -3,7 +3,6 @@ package com.senchenko.weather.repository;
 import com.weather.senchenko.City;
 import org.springframework.stereotype.Component;
 import org.springframework.util.Assert;
-
 import javax.annotation.PostConstruct;
 import java.util.HashMap;
 import java.util.Map;

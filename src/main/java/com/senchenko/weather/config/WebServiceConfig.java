@@ -1,5 +1,7 @@
 package com.senchenko.weather.config;
 
+import com.senchenko.weather.service.SoapEnvelopService;
+import com.weather.senchenko.GetCityRequest;
 import org.json.XML;
 import org.springframework.boot.web.servlet.ServletRegistrationBean;
 import org.springframework.context.ApplicationContext;
@@ -24,17 +26,7 @@ import java.util.Map;
 @Configuration
 public class WebServiceConfig extends WsConfigurerAdapter {
 
-    private static final String ENVOLOPE = "<soapenv:Envelope xmlns:soapenv=\"http://schemas.xmlsoap.org/soap/envelope/\"\n" +
-            "                                     xmlns:gs=\"http://weather.com/senchenko\">\n" +
-            "<soapenv:Header/>\n" +
-            "<soapenv:Body>\n" +
-            "    <gs:getCityRequest>\n" +
-            "        <gs:name>%s</gs:name>\n" +
-            "    </gs:getCityRequest>\n" +
-            "</soapenv:Body>\n" +
-            "</soapenv:Envelope>";
-
-     @Bean
+    @Bean
     public ServletRegistrationBean messageDispatcherServlet(ApplicationContext applicationContext) {
         MessageDispatcherServlet servlet = new MessageDispatcherServlet();
         servlet.setApplicationContext(applicationContext);
@@ -63,24 +55,18 @@ public class WebServiceConfig extends WsConfigurerAdapter {
     }
 
     @Bean
-    public IntegrationFlow httpProxyFlow() {
+    public IntegrationFlow httpWeatherProxy() {
         return IntegrationFlows
                 .from(Http.inboundGateway("/service")
                         .requestPayloadType(Map.class)
                 )
                 .transform(t -> new HashMap((Map) t).get("name"))
-                .transform(t -> String.format(ENVOLOPE, t))
+                .transform(t -> String.format(new SoapEnvelopService().createEnvelop(t.toString(), GetCityRequest.class)))
                 .enrichHeaders(h -> h.header("Content-Type", "text/xml; charset=utf-8"))
                 .handle(Http.outboundGateway("http://localhost:8080/ws")
                         .expectedResponseType(String.class))
-                .transform(t ->XML.toJSONObject(t.toString()).getJSONObject("SOAP-ENV:Envelope").getJSONObject("SOAP-ENV:Body").toString())
+                .transform(t -> XML.toJSONObject(t.toString()).getJSONObject("SOAP-ENV:Envelope").getJSONObject("SOAP-ENV:Body").toString())
                 .enrichHeaders(h -> h.header("Content-Type", "application/json; charset=utf-8"))
                 .get();
     }
-
-    @Bean
-    public DirectChannel directChannel() {
-        return new DirectChannel();
-    }
-
 }
