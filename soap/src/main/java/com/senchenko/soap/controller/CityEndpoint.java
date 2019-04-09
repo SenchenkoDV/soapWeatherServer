@@ -1,6 +1,7 @@
-package com.senchenko.weather.controller;
+package com.senchenko.soap.controller;
 
-import com.senchenko.weather.repository.CityRepository;
+
+import com.senchenko.soap.repository.CityRepository;
 import com.weather.senchenko.GetCityRequest;
 import com.weather.senchenko.GetCityResponse;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -14,7 +15,7 @@ import org.springframework.ws.server.endpoint.annotation.ResponsePayload;
 public class CityEndpoint {
 
     @Value("@{namespace.uri}")
-    private final String NAMESPACE_URI = "http://weather.com/senchenko";
+    private static final String NAMESPACE_URI = "http://weather.com/senchenko";
 
     private CityRepository cityRepository;
 

@@ -1,4 +1,4 @@
-package com.senchenko.weather.repository;
+package com.senchenko.soap.repository;
 
 import com.weather.senchenko.City;
 import org.springframework.stereotype.Component;

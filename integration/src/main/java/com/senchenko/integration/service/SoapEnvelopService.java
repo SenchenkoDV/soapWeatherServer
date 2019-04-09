@@ -1,4 +1,4 @@
-package com.senchenko.weather.service;
+package com.senchenko.integration.service;
 
 import com.weather.senchenko.GetCityRequest;
 import org.apache.logging.log4j.Level;
@@ -16,6 +16,7 @@ import javax.xml.soap.SOAPException;
 import javax.xml.soap.SOAPMessage;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
+
 
 public class SoapEnvelopService<T> {
     private static final Logger LOGGER = LogManager.getLogger();
