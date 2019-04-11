@@ -1,14 +1,12 @@
-services: '3.3'
-
-  integration:
-    image: senchenkodv/integration
-    ports:
-      - "8080:8080"
-    environment:
-      - SPRING_PROFILES_ACTIVE=local
+version: '3.3'
+services:
   soap:
     image: senchenkodv/soap
-    ports:
-      - "8081:8080"
-    environment:
-      - SPRING_PROFILES_ACTIVE=local
+    restart: always
+    build: /
+    working_dir: /integration
+    volumes:
+      - ./integration:/integration
+    expose:
+      - "8080"
+    command: mvn clean spring-boot:run

@@ -1,3 +1,1 @@
-FROM openjdk:8-jdk-alpine
-ARG JAR_FILE
-COPY ${JAR_FILE} /home/xyz/jars
+FROM maven:3.5-jdk-8
