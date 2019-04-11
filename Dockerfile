@@ -1,3 +1,4 @@
-FROM openjdk:8-jdk-alpine
-ARG JAR_FILE
-COPY ${JAR_FILE} /home/xyz/jars
+FROM openjdk:8
+ADD target/heroes3statistic.jar heroes3statistic.jar
+EXPOSE 8080
+CMD java -jar heroes3statistic.jar
